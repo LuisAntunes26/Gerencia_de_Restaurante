@@ -1,0 +1,18 @@
+int response_int = - 1;
+        String response;
+
+        do{
+            template.console_clear();
+            template.start();
+            try {
+                response = scanner.nextLine();
+                response_int = Integer.parseInt(response);
+            }
+            catch (NumberFormatException exeption){
+                System.out.println("O valor inserido tem que ser entre 0 e " + limit);
+            }
+            catch (Exception exeption){
+                System.out.println("Estamos a ter problemas, Tente mais tarde!");
+            }
+
+        }while(response_int != 1 && response_int != 0);

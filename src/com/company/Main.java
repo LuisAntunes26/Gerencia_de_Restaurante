@@ -103,7 +103,7 @@ public class Main {
             String title = "*-*-*-* " + type + " *-*-*-*";
 
             List<Row> outputBD = query.menuSee(type);
-            ArrayList<String> options = template.RowToString(outputBD);
+            ArrayList<String> options = template.menusToOptions(outputBD);
             int choice = template.choice(title, options);
             menuUserAddQtd(outputBD, options, choice);
         }else {
@@ -126,14 +126,14 @@ public class Main {
     private static void menuUserAddAll(){
         String title = "*-*-*-* Todos *-*-*-*";
         List<Row> outputBD = query.menuSeeAll();
-        ArrayList<String> options = template.RowToString(outputBD);
+        ArrayList<String> options = template.menusToOptions(outputBD);
         int choice = template.choice(title, options);
         menuUserAddQtd(outputBD, options, choice);
     }
 
     private static void menuUserRemove(){
         String title = "*-*-*-* Remover *-*-*-*";
-        ArrayList<String> options = template.RowToString(user.getCart());
+        ArrayList<String> options = template.menusToOptions(user.getCart());
         int choice = template.choice(title, options);
 
         if (choice > 0) {
@@ -202,43 +202,67 @@ public class Main {
 
     }
 
-    private static void menuAdminRemove(){
-        String title = "*-*-*-* Remover Menus *-*-*-*";
+
+    private static void menuAdminEdit() {
+        String title = "*-*-*-* Edit Menus *-*-*-*";
         ArrayList<String> options = template.optionsMenuTypes();
         int choice = template.choice(title, options);
-        removeMenus(choice);
+        editMenuAdminExecute(choice);
     }
 
-    private static void removeMenus(int x){
-        if(x==1){
-            menuAdminRemoveAll();
+    private static void editMenuAdminExecute(int x) {
+        Row chosenMenu;
+        if (x == 1) {
+            chosenMenu = menuAdminEditAll();
+            changeMenu(chosenMenu);
         }
-        if(x>1) {
-            String type = template.menuTypes().get(x-2);
+        if (x > 1) {
+            String type = template.menuTypes().get(x - 2);
             String title = "*-*-*-* " + type + " *-*-*-*";
 
             List<Row> outputBD = query.menuSee(type);
-            ArrayList<String> options = template.RowToString(outputBD);
-            int choice = template.choice(title, options);
-            if(template.confirmDelete(choice, outputBD)){
-                System.out.println("Query de eliminação");
-            }
-            menuAdminRemove();
-        }else {
-            menuAdmin();
+            ArrayList<String> options = template.menusToOptions(outputBD);
+            int chosenMenuIndex = template.choice(title, options)-1;
+            chosenMenu = outputBD.get(chosenMenuIndex);
+            changeMenu(chosenMenu);
         }
+
+        menuAdmin();
+
     }
 
-    private static void menuAdminRemoveAll(){
+    private static Row menuAdminEditAll(){
         String title = "*-*-*-* Todos *-*-*-*";
         List<Row> outputBD = query.menuSeeAll();
-        ArrayList<String> options = template.RowToString(outputBD);
-        int choice = template.choice(title, options);
-        if(template.confirmDelete(choice, outputBD)){
-            System.out.println("*Query de eliminação*");
-        }
-        menuAdminRemove();
-
+        ArrayList<String> options = template.menusToOptions(outputBD);
+        int chosenMenuIndex = template.choice(title, options)-1;
+        return outputBD.get(chosenMenuIndex);
     }
 
+    public static void changeMenu(Row chosenMenu){
+        Row newchosenMenu = chosenMenu;
+        int id =Integer.parseInt(chosenMenu.getColumns().get(0));
+        String newName = chosenMenu.getColumns().get(1);
+        BigDecimal newPrice= BigDecimal.valueOf(Double.parseDouble(chosenMenu.getColumns().get(2)));
+        String newType = chosenMenu.getColumns().get(3);
+        int columnChoiceIndex;
+
+        do {
+            String title = "*-*-*-*- Escolher Coluna *-*-*-*-";
+            columnChoiceIndex = template.choice(title, template.colunumsToOptions(newchosenMenu));
+            switch (columnChoiceIndex) {
+                case 0 -> menuAdminEdit();
+                case 1 -> newchosenMenu.setElement(1, template.insertNewName(newName));
+                case 2 -> newchosenMenu.setElement(2, template.insertNewPrice(newPrice).toString());
+                case 3 -> newchosenMenu.setElement(3, template.insertNewType(newType));
+                case 4 -> System.out.println("Seguinte");
+                default -> throw new IllegalStateException("Unexpected value: " + columnChoiceIndex);
+            }
+        }while(columnChoiceIndex != 4);
+
+
+
+        //query.editMenu(id, newName, newPrice, newType);
+        //menuAdminEdit();
+    }
 }

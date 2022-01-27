@@ -89,8 +89,6 @@ public class JDBConnection {
         } catch (Exception e){
             System.err.println("Execption on executeQuery -- " + e.getClass().getName() +
                     ": " + e.getMessage());
-            System.out.println("Git....");
-            System.out.println("Que alqteração bacana");
         }
         return resultsList;
 

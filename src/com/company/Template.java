@@ -164,7 +164,7 @@ public class Template {
         return types;
     }
 
-    public ArrayList<String> RowToString(List<Row> rows){
+    public ArrayList<String> menusToOptions(List<Row> rows){
 
         ArrayList<String> options = new ArrayList<>();
         String str;
@@ -173,7 +173,6 @@ public class Template {
             Row row = rows.get(i);
             str = (i+1 + "- " + row.getColumns().get(1) + " (" + row.getColumns().get(2) + ")");
             options.add(str);
-
         }
         return options;
     }
@@ -213,8 +212,7 @@ public class Template {
         ArrayList<String> options = new ArrayList<>();
         options.add("0 - Voltar");
         options.add("1 - Criar Menus");
-        options.add("2 - Eliminar Menus");
-        options.add("3 - Editar Menus");
+        options.add("2 - Editar Menus");
         return options;
     }
 

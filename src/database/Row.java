@@ -19,6 +19,10 @@ public class Row {
         return this.elements;
     }
 
+    public void setElement(int index, String element){
+        this.elements.set(index, element);
+    }
+
     public int getNColumns(){
         return this.elements.size();
     }

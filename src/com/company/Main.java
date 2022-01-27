@@ -21,8 +21,8 @@ public class Main {
     }
 
 
-// Iniciar programa
-    private static void start(){
+    // Iniciar programa
+    private static void start() {
         String title = "*-*-*-* Login *-*-*-*";
         ArrayList<String> options = template.start();
         switch (template.choice(title, options)) {
@@ -46,23 +46,24 @@ public class Main {
             default -> System.out.println("Erro!");
         }
     }
+
     //Login
-    private static void login(){
+    private static void login() {
         String type;
         do {
             user.setUsername(template.enterUser());
             user.setPassword(template.enterPassword());
             type = query.testLogin(user);
-        }while(type.equals("Error"));
+        } while (type.equals("Error"));
         user.setType(type);
         template.setUser(user);
-        if(user.getType().equals("user"))
+        if (user.getType().equals("user"))
             mainMenuUser();
         else
-        mainMenuAdmin();
+            mainMenuAdmin();
     }
 
-    private static void mainMenuUser(){
+    private static void mainMenuUser() {
         String title = "*-*-*-* Main Menu *-*-*-*";
         ArrayList<String> options = template.optionsMainMenuUser();
         switch (template.choice(title, options)) {
@@ -75,7 +76,7 @@ public class Main {
         }
     }
 
-    private static void menuUser(){
+    private static void menuUser() {
         String title = "*-*-*-* Menus *-*-*-*";
         ArrayList<String> options = template.optionsMenuUser();
         switch (template.choice(title, options)) {
@@ -87,26 +88,26 @@ public class Main {
         }
     }
 
-    private static void menuUserAdd(){
+    private static void menuUserAdd() {
         String title = "*-*-*-* Adicionar Menus *-*-*-*";
         ArrayList<String> options = template.optionsMenuTypes();
         int choice = template.choice(title, options);
         addMenus(choice);
     }
 
-    private static void addMenus(int x){
-        if(x==1){
+    private static void addMenus(int x) {
+        if (x == 1) {
             menuUserAddAll();
         }
-        if(x>1) {
-            String type = template.menuTypes().get(x-2);
+        if (x > 1) {
+            String type = template.menuTypes().get(x - 2);
             String title = "*-*-*-* " + type + " *-*-*-*";
 
             List<Row> outputBD = query.menuSee(type);
             ArrayList<String> options = template.menusToOptions(outputBD);
             int choice = template.choice(title, options);
             menuUserAddQtd(outputBD, options, choice);
-        }else {
+        } else {
             menuUser();
         }
     }
@@ -116,14 +117,14 @@ public class Main {
             System.out.println("*-*-*-* " + options.get(choice).substring(3) + " *-*-*-*");
             System.out.print("Quantidade: ");
             int qtd = scanner.nextInt();
-            for(int i = 0; i< qtd; i++){
-                user.addCart(outputBD.get(choice -1));
+            for (int i = 0; i < qtd; i++) {
+                user.addCart(outputBD.get(choice - 1));
             }
         }
         menuUserAdd();
     }
 
-    private static void menuUserAddAll(){
+    private static void menuUserAddAll() {
         String title = "*-*-*-* Todos *-*-*-*";
         List<Row> outputBD = query.menuSeeAll();
         ArrayList<String> options = template.menusToOptions(outputBD);
@@ -131,33 +132,34 @@ public class Main {
         menuUserAddQtd(outputBD, options, choice);
     }
 
-    private static void menuUserRemove(){
+    private static void menuUserRemove() {
         String title = "*-*-*-* Remover *-*-*-*";
         ArrayList<String> options = template.menusToOptions(user.getCart());
         int choice = template.choice(title, options);
 
         if (choice > 0) {
-            user.removeCart(choice-1);
+            user.removeCart(choice - 1);
             menuUserRemove();
         }
         menuUser();
     }
 
-    private static void menuShowCart(){
+    private static void menuShowCart() {
         System.out.println("*-*-*-* Carrinho *-*-*-*");
         ArrayList<String> viewCart = template.showcart();
         for (String item : viewCart) {
             System.out.println(item);
         }
         System.out.print("Pressione ENTER para voltar...");
-        try{
+        try {
             System.in.read();
-        }catch(Exception e){
-            e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         menuUser();
     }
 
-    private static void mainMenuAdmin(){
+    private static void mainMenuAdmin() {
         String title = "*-*-*-* Main Menu (Admin)*-*-*-*";
         ArrayList<String> options = template.optionsMainMenuAdmin();
         switch (template.choice(title, options)) {
@@ -170,19 +172,18 @@ public class Main {
         }
     }
 
-    private static void menuAdmin(){
+    private static void menuAdmin() {
         String title = "*-*-*-* Menus *-*-*-*";
         ArrayList<String> options = template.optionsMenuAdmin();
         switch (template.choice(title, options)) {
             case 0 -> mainMenuAdmin();
             case 1 -> menuAdminCreate();
-            case 2 -> menuAdminRemove();
-            case 3 -> System.out.println("Editar");
+            case 2 -> menuAdminEdit();
             default -> System.out.println("Erro!");
         }
     }
 
-    private static void menuAdminCreate(){
+    private static void menuAdminCreate() {
         String name = template.nameMenu();
         BigDecimal price = BigDecimal.valueOf(template.priceMenu(name));
         String type = template.typeMenu(name, price);
@@ -195,8 +196,8 @@ public class Main {
         System.out.print("Confirmacao(1/0): ");
         choice = scanner.nextByte();
 
-        if(choice == 1){
-                query.addMenu(name, price, type);
+        if (choice == 1) {
+            query.addMenu(name, price, type);
         }
         menuAdmin();
 

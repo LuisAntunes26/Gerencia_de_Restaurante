@@ -271,21 +271,53 @@ public class Template {
         return type;
     }
 
-    public boolean confirmDelete(int choice, List<Row> outputBD){
-        String confirm;
-        Row row = outputBD.get(choice -1);
-        System.out.println("Eliminar a entrada:");
-        System.out.println("id=" + row.getColumns().get(0));
-        System.out.println("Nome= " + row.getColumns().get(1));
-        System.out.println("Preco= " + row.getColumns().get(2));
-        System.out.println("Tipo= " + row.getColumns().get(3));
-        System.out.print("Escreva \"confirmar\" para eliminar: ");
-        confirm = scanner.nextLine();
-        if(confirm.equalsIgnoreCase("confirmar")){
-            return true;
-        }else{
-            return false;
+
+
+    public ArrayList<String> colunumsToOptions(Row menu){
+        ArrayList<String> options = new ArrayList<>();
+        options.add("0 - Voltar");
+        int i;
+        for(i = 1; i < menu.getColumns().size(); i++){
+            options.add(i +" - " + menu.getColumns().get(i));
         }
+        options.add(i + " - Confirmar");
+        return options;
     }
+
+    public String insertNewName(String oldName){
+        console_clear();
+        System.out.println("Nome a alterar: " + oldName);
+        System.out.print("Novo nome: ");
+        String newName = this.scanner.next();
+        console_clear();
+        while(newName.equals("") || newName.equals(oldName)) {
+            System.out.println("Novo nome vazio ou igual ao antigo!!");
+            System.out.print("Introduza o username: ");
+            newName = this.scanner.next();
+            console_clear();
+        }
+        return newName;
+    }
+
+    public BigDecimal insertNewPrice(BigDecimal oldPrice){
+
+        return oldPrice;
+    }
+
+    public String insertNewType(String oldType){
+        console_clear();
+        System.out.println("Nome a alterar: " + oldType);
+        System.out.print("Novo nome: ");
+        String newType = this.scanner.next();
+        console_clear();
+        while(newType.equals("") || newType.equals(oldType)) {
+            System.out.println("Novo nome vazio ou igual ao antigo!!");
+            System.out.print("Introduza o username: ");
+            newType = this.scanner.next();
+            console_clear();
+        }
+        return newType;
+    }
+
 }
 

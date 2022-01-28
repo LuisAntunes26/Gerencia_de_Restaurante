@@ -243,9 +243,6 @@ public class Main {
     public static void changeMenu(Row chosenMenu){
         Row newchosenMenu = chosenMenu;
         int id =Integer.parseInt(chosenMenu.getColumns().get(0));
-        String newName = chosenMenu.getColumns().get(1);
-        BigDecimal newPrice= BigDecimal.valueOf(Double.parseDouble(chosenMenu.getColumns().get(2)));
-        String newType = chosenMenu.getColumns().get(3);
         int columnChoiceIndex;
 
         do {
@@ -253,17 +250,18 @@ public class Main {
             columnChoiceIndex = template.choice(title, template.colunumsToOptions(newchosenMenu));
             switch (columnChoiceIndex) {
                 case 0 -> menuAdminEdit();
-                case 1 -> newchosenMenu.setElement(1, template.insertNewName(newName));
-                case 2 -> newchosenMenu.setElement(2, template.insertNewPrice(newPrice).toString());
-                case 3 -> newchosenMenu.setElement(3, template.insertNewType(newType));
-                case 4 -> System.out.println("Seguinte");
+                case 1 -> newchosenMenu.setElement(1, template.insertNewName(newchosenMenu));
+                case 2 -> newchosenMenu.setElement(2, template.insertNewPrice(newchosenMenu));
+                case 3 -> newchosenMenu.setElement(3, template.insertNewType(newchosenMenu));
+                case 4 -> System.out.println("Executar query");
                 default -> throw new IllegalStateException("Unexpected value: " + columnChoiceIndex);
             }
         }while(columnChoiceIndex != 4);
+        String newName = newchosenMenu.getColumns().get(1);
+        double newPrice = Double.parseDouble(newchosenMenu.getColumns().get(2));
+        String newType = newchosenMenu.getColumns().get(3);
 
 
-
-        //query.editMenu(id, newName, newPrice, newType);
-        //menuAdminEdit();
+        query.editMenu(id, newName, newPrice, newType);
     }
 }

@@ -284,36 +284,62 @@ public class Template {
         return options;
     }
 
-    public String insertNewName(String oldName){
+    public String insertNewName(Row chosenMenu){
+        String title = "*-*-*-* Introduzir nome *-*-*-*";
+        String oldName = chosenMenu.getColumns().get(1);
         console_clear();
+        System.out.println(title);
         System.out.println("Nome a alterar: " + oldName);
         System.out.print("Novo nome: ");
-        String newName = this.scanner.next();
+        String newName = this.scanner.nextLine();
         console_clear();
         while(newName.equals("") || newName.equals(oldName)) {
+            System.out.println(title);
             System.out.println("Novo nome vazio ou igual ao antigo!!");
-            System.out.print("Introduza o username: ");
-            newName = this.scanner.next();
+            System.out.println("Nome a alterar: " + oldName);
+            System.out.print("Novo nome: ");
+            newName = this.scanner.nextLine();
             console_clear();
         }
         return newName;
     }
 
-    public BigDecimal insertNewPrice(BigDecimal oldPrice){
-
-        return oldPrice;
+    public String insertNewPrice(Row chosenMenu){
+        String title = "*-*-*-* Introduzir preco *-*-*-*";
+        String response;
+        Double responseDouble = 0.0;
+        String error = "";
+        Boolean fail = false;
+        Boolean sucess = false;
+        do {
+            if(fail){
+                System.out.println(error);
+            }
+            System.out.println("Preco antigo: " + chosenMenu.getColumns().get(2) + "€");
+            System.out.print("Escolha: ");
+            try {
+                response = scanner.nextLine();//String
+                responseDouble = Double.parseDouble(response);//int
+                sucess = true;
+            } catch (NumberFormatException exeption) {
+                fail = true;
+                error = "O valor tem de ser um Int";
+            }
+        }while(!sucess);
+        return responseDouble.toString();
     }
 
-    public String insertNewType(String oldType){
+    public String insertNewType(Row chosenMenu){
+        String oldType = chosenMenu.getColumns().get(3);
         console_clear();
-        System.out.println("Nome a alterar: " + oldType);
-        System.out.print("Novo nome: ");
-        String newType = this.scanner.next();
+        System.out.println("Tipo a alterar: " + oldType);
+        System.out.print("Novo tipo: ");
+        String newType = this.scanner.nextLine();
         console_clear();
         while(newType.equals("") || newType.equals(oldType)) {
-            System.out.println("Novo nome vazio ou igual ao antigo!!");
-            System.out.print("Introduza o username: ");
-            newType = this.scanner.next();
+            System.out.println("Novo tipo vazio ou igual ao antigo!!");
+            System.out.print("Novo tipo: ");
+            newType = this.scanner.nextLine();
             console_clear();
         }
         return newType;

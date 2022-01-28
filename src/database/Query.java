@@ -77,7 +77,26 @@ public class Query {
             }
             this.db.closePSMySQL();
         }
+    }
 
+    public void editMenu(int id, String name, Double price, String type){
+        boolean connectionIsOpen = this.db.openMySQL();
+        String SQL_INSERT_PRODUCTS = "CALL sp_update_menu(?, ?, ?, ?)";
+        if (connectionIsOpen){
+            try {
+                this.db.setPreparedStatement(SQL_INSERT_PRODUCTS);
+                PreparedStatement preparedStatement = this.db.getPreparedStatement();
+                preparedStatement.setInt(1, id);
+                preparedStatement.setString(2, name);
+                preparedStatement.setBigDecimal(3, BigDecimal.valueOf(price));
+                preparedStatement.setString(4, type);
+                System.out.println("Executing query : " + preparedStatement.toString());
+                preparedStatement.execute();
+            }catch (SQLException e) {
+                e.printStackTrace();
+            }
+            this.db.closePSMySQL();
+        }
     }
 
 }

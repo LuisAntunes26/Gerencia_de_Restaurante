@@ -63,7 +63,7 @@ public class Query {
 
     public void addMenu(String name, BigDecimal price, String type){
         boolean connectionIsOpen = this.db.openMySQL();
-        String SQL_INSERT_PRODUCTS = "INSERT INTO projeto_testes.produtos (nome, preco, tipo) VALUES (?, ?, ?);";
+        String SQL_INSERT_PRODUCTS = "CALL sp_insert_products(?, ?, ?);";
         if (connectionIsOpen){
             try {
                 this.db.setPreparedStatement(SQL_INSERT_PRODUCTS);

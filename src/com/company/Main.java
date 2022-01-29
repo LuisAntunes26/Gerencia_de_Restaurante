@@ -102,7 +102,6 @@ public class Main {
         if (x > 1) {
             String type = template.menuTypes().get(x - 2);
             String title = "*-*-*-* " + type + " *-*-*-*";
-
             List<Row> outputBD = query.menuSee(type);
             ArrayList<String> options = template.menusToOptions(outputBD);
             int choice = template.choice(title, options);
@@ -136,7 +135,6 @@ public class Main {
         String title = "*-*-*-* Remover *-*-*-*";
         ArrayList<String> options = template.menusToOptions(user.getCart());
         int choice = template.choice(title, options);
-
         if (choice > 0) {
             user.removeCart(choice - 1);
             menuUserRemove();
@@ -188,14 +186,12 @@ public class Main {
         BigDecimal price = BigDecimal.valueOf(template.priceMenu(name));
         String type = template.typeMenu(name, price);
         byte choice;
-
         System.out.println("*-*-*-* Novo produto *-*-*-*");
         System.out.println("Nome: " + name);
         System.out.println("Preco: " + price + '€');
         System.out.println("Tipo: " + type);
         System.out.print("Confirmacao(1/0): ");
         choice = scanner.nextByte();
-
         if (choice == 1) {
             query.addMenu(name, price, type);
         }
@@ -220,14 +216,14 @@ public class Main {
         if (x > 1) {
             String type = template.menuTypes().get(x - 2);
             String title = "*-*-*-* " + type + " *-*-*-*";
-
             List<Row> outputBD = query.menuSee(type);
             ArrayList<String> options = template.menusToOptions(outputBD);
-            int chosenMenuIndex = template.choice(title, options)-1;
-            chosenMenu = outputBD.get(chosenMenuIndex);
-            changeMenu(chosenMenu);
+            int chosenMenuIndex = template.choice(title, options);
+            if(chosenMenuIndex != 0){
+                chosenMenu = outputBD.get(chosenMenuIndex - 1);
+                changeMenu(chosenMenu);
+            }
         }
-
         menuAdmin();
 
     }
@@ -241,27 +237,23 @@ public class Main {
     }
 
     public static void changeMenu(Row chosenMenu){
-        Row newchosenMenu = chosenMenu;
         int id =Integer.parseInt(chosenMenu.getColumns().get(0));
         int columnChoiceIndex;
-
         do {
             String title = "*-*-*-*- Escolher Coluna *-*-*-*-";
-            columnChoiceIndex = template.choice(title, template.colunumsToOptions(newchosenMenu));
+            columnChoiceIndex = template.choice(title, template.colunumsToOptions(chosenMenu));
             switch (columnChoiceIndex) {
                 case 0 -> menuAdminEdit();
-                case 1 -> newchosenMenu.setElement(1, template.insertNewName(newchosenMenu));
-                case 2 -> newchosenMenu.setElement(2, template.insertNewPrice(newchosenMenu));
-                case 3 -> newchosenMenu.setElement(3, template.insertNewType(newchosenMenu));
+                case 1 -> chosenMenu.setElement(1, template.insertNewName(chosenMenu));
+                case 2 -> chosenMenu.setElement(2, template.insertNewPrice(chosenMenu));
+                case 3 -> chosenMenu.setElement(3, template.insertNewType(chosenMenu));
                 case 4 -> System.out.println("Executar query");
                 default -> throw new IllegalStateException("Unexpected value: " + columnChoiceIndex);
             }
         }while(columnChoiceIndex != 4);
-        String newName = newchosenMenu.getColumns().get(1);
-        double newPrice = Double.parseDouble(newchosenMenu.getColumns().get(2));
-        String newType = newchosenMenu.getColumns().get(3);
-
-
+        String newName = chosenMenu.getColumns().get(1);
+        double newPrice = Double.parseDouble(chosenMenu.getColumns().get(2));
+        String newType = chosenMenu.getColumns().get(3);
         query.editMenu(id, newName, newPrice, newType);
     }
 }

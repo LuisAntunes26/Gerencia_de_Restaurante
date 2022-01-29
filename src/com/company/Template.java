@@ -49,8 +49,15 @@ public class Template {
                 }
             }
             catch (NumberFormatException exeption){
-                fail = true;
-                error = "O valor tem de ser um Int";
+                String emptyErrorCode = "For input string: \"\"";
+                if(!exeption.getMessage().equals(emptyErrorCode)) {
+                    fail = true;
+                    error = "O valor tem de ser um Int";
+                }
+                //System.out.println(exeption.getMessage());
+                //Erro a Resolver: java.lang.NumberFormatException: For input string: ""
+                //Sempre que existe uma confirmação através de um byte
+                //Pula um ciclo e mostra uma mesagem de erro não adequada
             }
             catch (Exception exeption){
                 fail = true;

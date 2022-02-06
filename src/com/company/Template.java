@@ -95,7 +95,6 @@ public class Template {
         System.out.print("Introduza o username: ");
         String username = this.scanner.next();
         console_clear();
-
         while(username.equals("") || username.length() >= 25) {
             System.out.println("Username vazio ou com mais de 25 caracters - INVALIDO");
             System.out.print("Introduza o username: ");
@@ -105,40 +104,30 @@ public class Template {
         return username;
     }
 
-    public String creatClientUsername(){
-        console_clear();
-        String username = "";
-        System.out.print("Introduza um username: ");
-        username = this.scanner.next();
-        console_clear();
-        return username;
-    }
-
-    public String creatClientPassword(){
-        console_clear();
-        String password = "";
-        System.out.print("Introduza uma password: ");
-        password = this.scanner.next();
-        console_clear();
-        return password;
-    }
-
     //Metodo para intoducao da password
     public String enterPassword(){
-        System.out.print("Introduza a Password: ");
-        String password = this.scanner.next();
+        String password = pass();
         console_clear();
-
         while(password.equals("")) {
             System.out.println("Password vazia - INVALIDO");
-            System.out.println("Introduza a password: ");
-            password = this.scanner.next();
+            password = pass();
            console_clear();
         }
         return password;
     }
 
-
+    private String pass(){
+        String password = "";
+        char[] charPassword;
+        Console console;
+        if((console = System.console())!= null){
+            charPassword = console.readPassword("Introduza password");
+            password = Arrays.toString(charPassword);
+        }else{
+            System.out.println("No console found");
+        }
+        return password;
+    }
     //Template MainMenu
     public ArrayList<String> optionsMainMenuUser(){
         ArrayList<String> options = new ArrayList<>();
@@ -327,7 +316,6 @@ public class Template {
         String response;
         Double responseDouble = 0.0;
         String error = "";
-
         Boolean fail = false;
         Boolean sucess = false;
         do {

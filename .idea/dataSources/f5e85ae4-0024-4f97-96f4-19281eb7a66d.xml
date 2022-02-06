@@ -1159,91 +1159,180 @@
       <RoutineKind>procedure</RoutineKind>
       <SourceTextLength>82</SourceTextLength>
     </routine>
-    <routine id="342" parent="332" name="sp_update_menu">
+    <routine id="342" parent="332" name="sp_last_pedido_ID_from_user">
+      <Definer>root@localhost</Definer>
+      <RoutineKind>procedure</RoutineKind>
+      <SourceTextLength>91</SourceTextLength>
+    </routine>
+    <routine id="343" parent="332" name="sp_update_menu">
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
       <SourceTextLength>131</SourceTextLength>
     </routine>
-    <table id="343" parent="332" name="login">
+    <routine id="344" parent="332" name="sp_view_produtos_from_pedido">
+      <Definer>root@localhost</Definer>
+      <RoutineKind>procedure</RoutineKind>
+      <SourceTextLength>319</SourceTextLength>
+    </routine>
+    <table id="345" parent="332" name="login">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_general_ci</CollationName>
     </table>
-    <table id="344" parent="332" name="produtos">
+    <table id="346" parent="332" name="pedido">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_general_ci</CollationName>
     </table>
-    <argument id="345" parent="341" name="nome1">
+    <table id="347" parent="332" name="produtos">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_general_ci</CollationName>
+    </table>
+    <table id="348" parent="332" name="produtospedido">
+      <Engine>InnoDB</Engine>
+      <CollationName>utf8mb4_general_ci</CollationName>
+    </table>
+    <argument id="349" parent="341" name="nome1">
       <DataType>varchar(100)|0s</DataType>
       <Position>1</Position>
     </argument>
-    <argument id="346" parent="341" name="preco1">
+    <argument id="350" parent="341" name="preco1">
       <DataType>decimal(10)|0s</DataType>
       <Position>2</Position>
     </argument>
-    <argument id="347" parent="341" name="tipo1">
+    <argument id="351" parent="341" name="tipo1">
       <DataType>varchar(100)|0s</DataType>
       <Position>3</Position>
     </argument>
-    <argument id="348" parent="342" name="id">
+    <argument id="352" parent="342" name="username">
+      <DataType>varchar(100)|0s</DataType>
+      <Position>1</Position>
+    </argument>
+    <argument id="353" parent="343" name="id">
       <DataType>int(11)|0s</DataType>
       <Position>1</Position>
     </argument>
-    <argument id="349" parent="342" name="nome">
+    <argument id="354" parent="343" name="nome">
       <DataType>varchar(100)|0s</DataType>
       <Position>2</Position>
     </argument>
-    <argument id="350" parent="342" name="preco">
+    <argument id="355" parent="343" name="preco">
       <DataType>decimal(5,2 digit)|0s</DataType>
       <Position>3</Position>
     </argument>
-    <argument id="351" parent="342" name="tipo">
+    <argument id="356" parent="343" name="tipo">
       <DataType>varchar(30)|0s</DataType>
       <Position>4</Position>
     </argument>
-    <column id="352" parent="343" name="username">
+    <argument id="357" parent="344" name="input">
+      <DataType>int(11)|0s</DataType>
+      <Position>1</Position>
+    </argument>
+    <column id="358" parent="345" name="username">
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="353" parent="343" name="password">
+    <column id="359" parent="345" name="password">
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="354" parent="343" name="tipo">
+    <column id="360" parent="345" name="tipo">
       <DataType>varchar(20)|0s</DataType>
-      <DefaultExpression>&apos;cliente&apos;</DefaultExpression>
+      <DefaultExpression>&apos;user&apos;</DefaultExpression>
       <Position>3</Position>
     </column>
-    <key id="355" parent="343" name="PRIMARY">
+    <key id="361" parent="345" name="PRIMARY">
       <ColNames>username</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
     </key>
-    <column id="356" parent="344" name="id">
+    <column id="362" parent="346" name="id">
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="357" parent="344" name="nome">
+    <column id="363" parent="346" name="username">
+      <DataType>varchar(100)|0s</DataType>
+      <Position>2</Position>
+    </column>
+    <column id="364" parent="346" name="Total">
+      <DataType>decimal(10)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <foreign-key id="365" parent="346" name="pedido_ibfk_1">
+      <ColNames>username</ColNames>
+      <RefColNames>username</RefColNames>
+      <RefTableName>login</RefTableName>
+    </foreign-key>
+    <index id="366" parent="346" name="username">
+      <ColNames>username</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="367" parent="346" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+    </key>
+    <column id="368" parent="347" name="id">
+      <DataType>int(10) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="369" parent="347" name="nome">
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="358" parent="344" name="preco">
+    <column id="370" parent="347" name="preco">
       <DataType>decimal(5,2 digit)|0s</DataType>
       <DefaultExpression>0.00</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="359" parent="344" name="tipo">
+    <column id="371" parent="347" name="tipo">
       <DataType>varchar(30)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <key id="360" parent="344" name="PRIMARY">
+    <key id="372" parent="347" name="PRIMARY">
       <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+    </key>
+    <column id="373" parent="348" name="id_pedido">
+      <DataType>int(10) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="374" parent="348" name="id_produto">
+      <DataType>int(10) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="375" parent="348" name="quantidade">
+      <DataType>int(10) unsigned|0s</DataType>
+      <Position>3</Position>
+    </column>
+    <foreign-key id="376" parent="348" name="produtospedido_ibfk_1">
+      <ColNames>id_pedido</ColNames>
+      <RefColNames>id</RefColNames>
+      <RefTableName>pedido</RefTableName>
+    </foreign-key>
+    <foreign-key id="377" parent="348" name="produtospedido_ibfk_2">
+      <ColNames>id_produto</ColNames>
+      <RefColNames>id</RefColNames>
+      <RefTableName>produtos</RefTableName>
+    </foreign-key>
+    <index id="378" parent="348" name="id_produto">
+      <ColNames>id_produto</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="379" parent="348" name="PRIMARY">
+      <ColNames>id_pedido
+id_produto</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
     </key>

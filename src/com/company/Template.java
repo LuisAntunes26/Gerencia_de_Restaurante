@@ -95,6 +95,7 @@ public class Template {
         System.out.print("Introduza o username: ");
         String username = this.scanner.next();
         console_clear();
+
         while(username.equals("") || username.length() >= 25) {
             System.out.println("Username vazio ou com mais de 25 caracters - INVALIDO");
             System.out.print("Introduza o username: ");
@@ -106,28 +107,38 @@ public class Template {
 
     //Metodo para intoducao da password
     public String enterPassword(){
-        String password = pass();
+        System.out.print("Introduza a Password: ");
+        String password = this.scanner.next();
         console_clear();
+
         while(password.equals("")) {
             System.out.println("Password vazia - INVALIDO");
-            password = pass();
-           console_clear();
+            System.out.println("Introduza a password: ");
+            password = this.scanner.next();
+            console_clear();
         }
         return password;
     }
 
-    private String pass(){
-        String password = "";
-        char[] charPassword;
-        Console console;
-        if((console = System.console())!= null){
-            charPassword = console.readPassword("Introduza password");
-            password = Arrays.toString(charPassword);
-        }else{
-            System.out.println("No console found");
-        }
+
+    public String createClientUsername(){
+        console_clear();
+        String username;
+        System.out.print("Introduza um username: ");
+        username = this.scanner.next();
+        console_clear();
+        return username;
+    }
+
+    public String createClientPassword(){
+        console_clear();
+        String password;
+        System.out.print("Introduza uma password: ");
+        password = this.scanner.next();
+        console_clear();
         return password;
     }
+
     //Template MainMenu
     public ArrayList<String> optionsMainMenuUser(){
         ArrayList<String> options = new ArrayList<>();
@@ -202,6 +213,34 @@ public class Template {
                 results.add(str);
             }
         }
+        return results;
+    }
+
+    public ArrayList<String> paymentCart(){
+        int qtd;
+        String str;
+        double priceForItems;
+        double totalPrice = 0;
+        ArrayList<Row> cart = this.user.getCart();
+        ArrayList<String> results = new ArrayList<>();
+        for (int i = 0; i < cart.size(); i++) {
+            qtd = 0;
+            Row irow = cart.get(i);
+            for (Row jrow : cart) {
+                if (Integer.parseInt(jrow.getColumns().get(0)) == Integer.parseInt(irow.getColumns().get(0))) {
+                    qtd += 1;
+                }
+            }
+            priceForItems = (qtd * Double.parseDouble(irow.getColumns().get(2)));
+            str =  qtd + "x " +irow.getColumns().get(1) + " (Unit. " + irow.getColumns().get(2) +
+                    "€)  -  Todos = " + priceForItems + "€";
+            if(!results.contains(str)){
+                totalPrice += priceForItems;
+                results.add(str);
+            }
+        }
+        results.add("Total = " + totalPrice + "€");
+        this.user.setTotalSpent(totalPrice);
         return results;
     }
 
@@ -314,11 +353,12 @@ public class Template {
     public String insertNewPrice(Row chosenMenu){
         String title = "*-*-*-* Introduzir preco *-*-*-*";
         String response;
-        Double responseDouble = 0.0;
+        double responseDouble = 0.0;
         String error = "";
-        Boolean fail = false;
-        Boolean sucess = false;
+        boolean fail = false;
+        boolean sucess = false;
         do {
+            System.out.println(title);
             if(fail){
                 System.out.println(error);
             }
@@ -333,7 +373,7 @@ public class Template {
                 error = "O valor tem de ser um Int";
             }
         }while(!sucess);
-        return responseDouble.toString();
+        return Double.toString(responseDouble);
     }
 
     public String insertNewType(Row chosenMenu){

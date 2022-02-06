@@ -28,7 +28,7 @@ public class Main {
         switch (template.choice(title, options)) {
             case 0 -> System.exit(0);
             case 1 -> login();
-            case 2 -> regist();
+            case 2 -> register();
             case 3 -> {
                 user.setUsername("user");
                 user.setUsername("user");
@@ -50,23 +50,26 @@ public class Main {
     //Login
     private static void login() {
         String type;
-        do {
+
             user.setUsername(template.enterUser());
             user.setPassword(template.enterPassword());
             type = query.testLogin(user);
-        } while (type.equals("Error"));
-        user.setType(type);
-        template.setUser(user);
-        if (user.getType().equals("user"))
-            mainMenuUser();
-        else
-            mainMenuAdmin();
+        if (!type.equals("Error")) {
+            user.setType(type);
+            template.setUser(user);
+            if (user.getType().equals("user"))
+                mainMenuUser();
+            else
+                mainMenuAdmin();
+        }else {
+            start();
+        }
     }
 
-    private static void regist() {
+    private static void register() {
         System.out.println("Criar Cliente");
-        String username = user.setCreatUsername(template.creatClientUsername());
-        String password = user.setCreatPassword(template.enterPassword());
+        String username = user.setCreatUsername(template.createClientUsername());
+        String password = user.setCreatPassword(template.createClientPassword());
 
         byte choice;
         System.out.println("*-*-*-* Confirmação dos Dados *-*-*-*");
@@ -88,7 +91,7 @@ public class Main {
         switch (template.choice(title, options)) {
             case 0 -> System.exit(0);
             case 1 -> menuUser();
-            case 2 -> System.out.println("Pagamento");
+            case 2 -> paymentUser();
             case 3 -> System.out.println("Classificação");
             case 4 -> System.out.println("Reclamações");
             default -> System.out.println("Erro!");

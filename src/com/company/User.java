@@ -11,6 +11,7 @@ public class User {
     private String password;
     private String type;
     private final ArrayList<Row> cart = new ArrayList<>();
+    private double totalSpent;
 
     public User(){
 
@@ -67,5 +68,13 @@ public class User {
     public String setCreatPassword(String creatPassword) {
         this.creatPassword = creatPassword;
         return creatPassword;
+    }
+
+    public void setTotalSpent(double totalSpent) {
+        this.totalSpent = totalSpent;
+    }
+
+    public double getTotalSpent() {
+        return totalSpent;
     }
 }

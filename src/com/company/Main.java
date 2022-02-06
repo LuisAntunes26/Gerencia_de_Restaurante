@@ -75,8 +75,11 @@ public class Main {
         System.out.print("Confirmacao(1/0): ");
         choice = scanner.nextByte();
         if (choice == 1) {
-            query.regist(username, password);
+            query.register(username, password);
+
         }
+        start();
+
     }
 
     private static void mainMenuUser() {
@@ -271,5 +274,20 @@ public class Main {
         double newPrice = Double.parseDouble(chosenMenu.getColumns().get(2));
         String newType = chosenMenu.getColumns().get(3);
         query.editMenu(id, newName, newPrice, newType);
+    }
+
+    public static void paymentUser(){
+        String title = "*-*-*-*-*-*-*-* Pagamento *-*-*-*-*-*-*-*" ;
+        System.out.println(title);
+        for (String str: template.paymentCart()) {
+            System.out.println(str);
+        }
+        System.out.println("Deseja acabar a sua compra?(1/0): ");
+        byte choice = scanner.nextByte();
+        if (choice == 1){
+        query.createPedido(user);
+        }else {
+            mainMenuUser();
+        }
     }
 }

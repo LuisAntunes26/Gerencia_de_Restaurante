@@ -99,7 +99,7 @@ public class Query {
         }
     }
 
-    public void regist(String username , String password){
+    public void register(String username , String password){
         boolean connectionIsOpen = this.db.openMySQL();
         String SQL_INSERT_LOGIN = "INSERT INTO login (username, password) VALUES(?,?)";
         if (connectionIsOpen){

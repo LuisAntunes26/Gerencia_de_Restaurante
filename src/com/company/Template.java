@@ -49,8 +49,15 @@ public class Template {
                 }
             }
             catch (NumberFormatException exeption){
-                fail = true;
-                error = "O valor tem de ser um Int";
+                String emptyErrorCode = "For input string: \"\"";
+                if(!exeption.getMessage().equals(emptyErrorCode)) {
+                    fail = true;
+                    error = "O valor tem de ser um Int";
+                }
+                //System.out.println(exeption.getMessage());
+                //Erro a Resolver: java.lang.NumberFormatException: For input string: ""
+                //Sempre que existe uma confirmação através de um byte
+                //Pula um ciclo e mostra uma mesagem de erro não adequada
             }
             catch (Exception exeption){
                 fail = true;
@@ -88,6 +95,7 @@ public class Template {
         System.out.print("Introduza o username: ");
         String username = this.scanner.next();
         console_clear();
+
         while(username.equals("") || username.length() >= 25) {
             System.out.println("Username vazio ou com mais de 25 caracters - INVALIDO");
             System.out.print("Introduza o username: ");
@@ -97,30 +105,40 @@ public class Template {
         return username;
     }
 
+    public String creatClientUsername(){
+        console_clear();
+        String username = "";
+        System.out.print("Introduza um username: ");
+        username = this.scanner.next();
+        console_clear();
+        return username;
+    }
+
+    public String creatClientPassword(){
+        console_clear();
+        String password = "";
+        System.out.print("Introduza uma password: ");
+        password = this.scanner.next();
+        console_clear();
+        return password;
+    }
+
     //Metodo para intoducao da password
     public String enterPassword(){
-        String password = pass();
+        System.out.print("Introduza a Password: ");
+        String password = this.scanner.next();
         console_clear();
+
         while(password.equals("")) {
             System.out.println("Password vazia - INVALIDO");
-            password = pass();
+            System.out.println("Introduza a password: ");
+            password = this.scanner.next();
            console_clear();
         }
         return password;
     }
 
-    private String pass(){
-        String password = "";
-        char[] charPassword;
-        Console console;
-        if((console = System.console())!= null){
-            charPassword = console.readPassword("Introduza password");
-            password = Arrays.toString(charPassword);
-        }else{
-            System.out.println("No console found");
-        }
-        return password;
-    }
+
     //Template MainMenu
     public ArrayList<String> optionsMainMenuUser(){
         ArrayList<String> options = new ArrayList<>();
@@ -284,36 +302,63 @@ public class Template {
         return options;
     }
 
-    public String insertNewName(String oldName){
+    public String insertNewName(Row chosenMenu){
+        String title = "*-*-*-* Introduzir nome *-*-*-*";
+        String oldName = chosenMenu.getColumns().get(1);
         console_clear();
+        System.out.println(title);
         System.out.println("Nome a alterar: " + oldName);
         System.out.print("Novo nome: ");
-        String newName = this.scanner.next();
+        String newName = this.scanner.nextLine();
         console_clear();
         while(newName.equals("") || newName.equals(oldName)) {
+            System.out.println(title);
             System.out.println("Novo nome vazio ou igual ao antigo!!");
-            System.out.print("Introduza o username: ");
-            newName = this.scanner.next();
+            System.out.println("Nome a alterar: " + oldName);
+            System.out.print("Novo nome: ");
+            newName = this.scanner.nextLine();
             console_clear();
         }
         return newName;
     }
 
-    public BigDecimal insertNewPrice(BigDecimal oldPrice){
+    public String insertNewPrice(Row chosenMenu){
+        String title = "*-*-*-* Introduzir preco *-*-*-*";
+        String response;
+        Double responseDouble = 0.0;
+        String error = "";
 
-        return oldPrice;
+        Boolean fail = false;
+        Boolean sucess = false;
+        do {
+            if(fail){
+                System.out.println(error);
+            }
+            System.out.println("Preco antigo: " + chosenMenu.getColumns().get(2) + "€");
+            System.out.print("Escolha: ");
+            try {
+                response = scanner.nextLine();//String
+                responseDouble = Double.parseDouble(response);//int
+                sucess = true;
+            } catch (NumberFormatException exeption) {
+                fail = true;
+                error = "O valor tem de ser um Int";
+            }
+        }while(!sucess);
+        return responseDouble.toString();
     }
 
-    public String insertNewType(String oldType){
+    public String insertNewType(Row chosenMenu){
+        String oldType = chosenMenu.getColumns().get(3);
         console_clear();
-        System.out.println("Nome a alterar: " + oldType);
-        System.out.print("Novo nome: ");
-        String newType = this.scanner.next();
+        System.out.println("Tipo a alterar: " + oldType);
+        System.out.print("Novo tipo: ");
+        String newType = this.scanner.nextLine();
         console_clear();
         while(newType.equals("") || newType.equals(oldType)) {
-            System.out.println("Novo nome vazio ou igual ao antigo!!");
-            System.out.print("Introduza o username: ");
-            newType = this.scanner.next();
+            System.out.println("Novo tipo vazio ou igual ao antigo!!");
+            System.out.print("Novo tipo: ");
+            newType = this.scanner.nextLine();
             console_clear();
         }
         return newType;

@@ -39,20 +39,20 @@ public class Template {
             if(fail){
                 System.out.println(error.toUpperCase(Locale.ROOT));
             }
-            System.out.print("Escolha: ");
+            System.out.print("Choice: ");
             try {
                 response = scanner.nextLine();//String
                 response_int = Integer.parseInt(response);//int
                 if (response_int > limit){
                     fail = true;
-                    error = "O valor inserido tem que ser entre 0 e " + limit;
+                    error = "The number must be between 0 and " + limit;
                 }
             }
             catch (NumberFormatException exeption){
                 String emptyErrorCode = "For input string: \"\"";
                 if(!exeption.getMessage().equals(emptyErrorCode)) {
                     fail = true;
-                    error = "O valor tem de ser um Int";
+                    error = "Not a number!";
                 }
                 //System.out.println(exeption.getMessage());
                 //Erro a Resolver: java.lang.NumberFormatException: For input string: ""
@@ -61,7 +61,7 @@ public class Template {
             }
             catch (Exception exeption){
                 fail = true;
-                error = "Estamos a ter problemas, Tente mais tarde!";
+                error = "We are having some problems, please try again later";
             }
 
         }while(response_int < 0 || response_int > limit);
@@ -72,9 +72,9 @@ public class Template {
     //Template inicial
     public ArrayList<String> start(){
         ArrayList<String> options = new ArrayList<>();
-        options.add("0 - Fechar");
-        options.add("1 - Efectuar Login");
-        options.add("2 - Resgistar");
+        options.add("0 - Exit");
+        options.add("1 - Login");
+        options.add("2 - Register");
         options.add("3 - Login user");
         options.add("4 - Login admin");
 
@@ -142,28 +142,26 @@ public class Template {
     //Template MainMenu
     public ArrayList<String> optionsMainMenuUser(){
         ArrayList<String> options = new ArrayList<>();
-        options.add("0 - Sair");
+        options.add("0 - Exit");
         options.add("1 - Menus");
-        options.add("2 - Pagamento");
-        options.add("3 - Classificao");
-        options.add("4 - Livro de Reclamacoes");
+        options.add("2 - Payment");
         return options;
     }
 
     public ArrayList<String> optionsMenuUser(){
         ArrayList<String> options = new ArrayList<>();
-        options.add("0 - Voltar");
-        options.add("1 - Adicionar produtos");
-        options.add("2 - Remover produtos");
-        options.add("3 - Ver Carrinho");
+        options.add("0 - Return");
+        options.add("1 - Add to Cart");
+        options.add("2 - Remove From Cart");
+        options.add("3 - Show Cart");
         return options;
     }
 
     public ArrayList<String> optionsMenuTypes(){
         ArrayList<String > types = menuTypes();
         ArrayList<String > options = new ArrayList<>();
-        options.add("0 - Voltar");
-        options.add("1 - Todos");
+        options.add("0 - Return");
+        options.add("1 - All Menus");
 
         for (int i = 0; i < types.size(); i++){
             options.add((i+2) + " - " + types.get(i));
@@ -186,7 +184,7 @@ public class Template {
 
         ArrayList<String> options = new ArrayList<>();
         String str;
-        options.add("0 - Voltar");
+        options.add("0 - Return");
         for (int i = 0; i < rows.size(); i++) {
             Row row = rows.get(i);
             str = (i+1 + "- " + row.getColumns().get(1) + " (" + row.getColumns().get(2) + ")");
@@ -246,27 +244,25 @@ public class Template {
 
     public ArrayList<String> optionsMainMenuAdmin(){
         ArrayList<String> options = new ArrayList<>();
-        options.add("0 - Sair");
+        options.add("0 - Exit");
         options.add("1 - Menus");
-        options.add("2 - Acessar Contabilidade");
-        options.add("3 - Classificoes");
-        options.add("4 - Reclamacoes");
+        options.add("2 - Acess accounting");
         return options;
     }
 
     public ArrayList<String> optionsMenuAdmin(){
         ArrayList<String> options = new ArrayList<>();
-        options.add("0 - Voltar");
-        options.add("1 - Criar Menus");
-        options.add("2 - Editar Menus");
+        options.add("0 - Return");
+        options.add("1 - Create Menus");
+        options.add("2 - Edit Menus");
         return options;
     }
 
     public String nameMenu() {
         String name;
         do {
-            System.out.println("*-*-*-* Criar um menu *-*-*-*");
-            System.out.print("Nome: ");
+            System.out.println("*-*-*-* Create a Menu *-*-*-*");
+            System.out.print("Name: ");
             name = scanner.nextLine();
             console_clear();
         } while (name.length() == 0);
@@ -279,9 +275,9 @@ public class Template {
         String response;
         double response_double = 0.0;
         do {
-            System.out.println("*-*-*-* Criar um menu *-*-*-*");
-            System.out.println("Nome: " + name);
-            System.out.print("Preco: ");
+            System.out.println("*-*-*-* Create a Menu *-*-*-*");
+            System.out.println("Name: " + name);
+            System.out.print("Price: ");
             if (fail) {
                 System.out.println(error);
             }
@@ -291,14 +287,14 @@ public class Template {
                 console_clear();
                 if (response_double < 0) {
                     fail = true;
-                    error = "O valor inserido tem que ser entre maior que 0";
+                    error = "The number must be greater than zero!";
                 }
             } catch (NumberFormatException exeption) {
                 fail = true;
-                error = "O valor tem de ser um Int";
+                error = "Not a Number!";
             } catch (Exception exeption) {
                 fail = true;
-                error = "Estamos a ter problemas, Tente mais tarde!";
+                error = "We are having some problems, please try again later";
             }
         } while (response_double < 0);
         return response_double;
@@ -307,10 +303,10 @@ public class Template {
     public String typeMenu(String name, BigDecimal price){
         String type;
         do {
-            System.out.println("*-*-*-* Criar um menu *-*-*-*");
-            System.out.println("Nome: " + name);
-            System.out.println("Preco: " + price + '€');
-            System.out.print("Tipo: ");
+            System.out.println("*-*-*-* Create a Menu *-*-*-*");
+            System.out.println("Name: " + name);
+            System.out.println("Price: " + price + '€');
+            System.out.print("Type: ");
             type = scanner.nextLine();
             console_clear();
         } while (type.length() == 0);
@@ -321,29 +317,29 @@ public class Template {
 
     public ArrayList<String> colunumsToOptions(Row menu){
         ArrayList<String> options = new ArrayList<>();
-        options.add("0 - Voltar");
+        options.add("0 - Return");
         int i;
         for(i = 1; i < menu.getColumns().size(); i++){
             options.add(i +" - " + menu.getColumns().get(i));
         }
-        options.add(i + " - Confirmar");
+        options.add(i + " - Confirm");
         return options;
     }
 
     public String insertNewName(Row chosenMenu){
-        String title = "*-*-*-* Introduzir nome *-*-*-*";
+        String title = "*-*-*-* Change name *-*-*-*";
         String oldName = chosenMenu.getColumns().get(1);
         console_clear();
         System.out.println(title);
-        System.out.println("Nome a alterar: " + oldName);
-        System.out.print("Novo nome: ");
+        System.out.println("Old name : " + oldName);
+        System.out.print("New name: ");
         String newName = this.scanner.nextLine();
         console_clear();
         while(newName.equals("") || newName.equals(oldName)) {
             System.out.println(title);
-            System.out.println("Novo nome vazio ou igual ao antigo!!");
-            System.out.println("Nome a alterar: " + oldName);
-            System.out.print("Novo nome: ");
+            System.out.println("The name is empty or is equal to the old one!");
+            System.out.println("Old name: " + oldName);
+            System.out.print("New name: ");
             newName = this.scanner.nextLine();
             console_clear();
         }
@@ -351,7 +347,7 @@ public class Template {
     }
 
     public String insertNewPrice(Row chosenMenu){
-        String title = "*-*-*-* Introduzir preco *-*-*-*";
+        String title = "*-*-*-* Change price *-*-*-*";
         String response;
         double responseDouble = 0.0;
         String error = "";
@@ -362,30 +358,31 @@ public class Template {
             if(fail){
                 System.out.println(error);
             }
-            System.out.println("Preco antigo: " + chosenMenu.getColumns().get(2) + "€");
-            System.out.print("Escolha: ");
+            System.out.println("Old Price: " + chosenMenu.getColumns().get(2) + "€");
+            System.out.print("Choice: ");
             try {
                 response = scanner.nextLine();//String
                 responseDouble = Double.parseDouble(response);//int
                 sucess = true;
             } catch (NumberFormatException exeption) {
                 fail = true;
-                error = "O valor tem de ser um Int";
+                error = "Not a Number!";
             }
         }while(!sucess);
         return Double.toString(responseDouble);
     }
 
     public String insertNewType(Row chosenMenu){
+        String title = "*-*-*-* Change type *-*-*-*";
         String oldType = chosenMenu.getColumns().get(3);
         console_clear();
-        System.out.println("Tipo a alterar: " + oldType);
-        System.out.print("Novo tipo: ");
+        System.out.println("Old type: " + oldType);
+        System.out.print("New type: ");
         String newType = this.scanner.nextLine();
         console_clear();
         while(newType.equals("") || newType.equals(oldType)) {
-            System.out.println("Novo tipo vazio ou igual ao antigo!!");
-            System.out.print("Novo tipo: ");
+            System.out.println("The type is empty or is equal to the old one!");
+            System.out.print("New type: ");
             newType = this.scanner.nextLine();
             console_clear();
         }

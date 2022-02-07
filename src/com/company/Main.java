@@ -101,8 +101,6 @@ public class Main {
             case 0 -> System.exit(0);
             case 1 -> menuUser();
             case 2 -> paymentUser();
-            case 3 -> System.out.println("Classificação");
-            case 4 -> System.out.println("Reclamações");
             default -> System.out.println("Erro!");
         }
     }
@@ -120,7 +118,7 @@ public class Main {
     }
 
     private static void menuUserAdd() {
-        String title = "*-*-*-* Adicionar Menus *-*-*-*";
+        String title = "*-*-*-* Add Menus *-*-*-*";
         ArrayList<String> options = template.optionsMenuTypes();
         int choice = template.choice(title, options);
         addMenus(choice);
@@ -145,7 +143,7 @@ public class Main {
     private static void menuUserAddQtd(List<Row> outputBD, ArrayList<String> options, int choice) {
         if (choice > 0) {
             System.out.println("*-*-*-* " + options.get(choice).substring(3) + " *-*-*-*");
-            System.out.print("Quantidade: ");
+            System.out.print("Quantity: ");
             int qtd = scanner.nextInt();
             for (int i = 0; i < qtd; i++) {
                 user.addCart(outputBD.get(choice - 1));
@@ -163,7 +161,7 @@ public class Main {
     }
 
     private static void menuUserRemove() {
-        String title = "*-*-*-* Remover *-*-*-*";
+        String title = "*-*-*-* Remove *-*-*-*";
         ArrayList<String> options = template.menusToOptions(user.getCart());
         int choice = template.choice(title, options);
         if (choice > 0) {
@@ -174,12 +172,12 @@ public class Main {
     }
 
     private static void menuShowCart() {
-        System.out.println("*-*-*-* Carrinho *-*-*-*");
+        System.out.println("*-*-*-* Cart *-*-*-*");
         ArrayList<String> viewCart = template.showcart();
         for (String item : viewCart) {
             System.out.println(item);
         }
-        System.out.print("Pressione ENTER para voltar...");
+        System.out.print("Press ENTER to go back...");
         try {
             System.in.read();
         } catch (Exception e) {
@@ -195,8 +193,6 @@ public class Main {
             case 0 -> System.exit(0);
             case 1 -> menuAdmin();
             case 2 -> countabilityAdmin();
-            case 3 -> System.out.println("Classificação");
-            case 4 -> System.out.println("Reclamações");
             default -> System.out.println("Erro!");
         }
     }
@@ -266,11 +262,11 @@ public class Main {
                 List<Row> rows = query.countabilityAdmin(choice);
                 String clientName = rows.get(0).getColumns().get(1);
 
-                System.out.println("Nome Cliente: " + clientName);
+                System.out.println("Client username: " + clientName);
                 for (Row row : rows) {
 
-                    System.out.println("Menu: " + row.getColumns().get(2) +
-                            "| Preco: " + row.getColumns().get(4) + "| Tipo Menu: " + row.getColumns().get(5) + "| Quantidade: " +
+                    System.out.println("Menu: " + row.getColumns().get(3) +
+                            "| Price: " + row.getColumns().get(4) + "| Type: " + row.getColumns().get(5) + "| Qtd.: " +
                             row.getColumns().get(6));
                 }
             }

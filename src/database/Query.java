@@ -11,16 +11,16 @@ import com.company.User;
 public class Query {
     private final JDBConnection db;
 
-    public Query(JDBConnection db){
+    public Query(JDBConnection db) {
         this.db = db;
     }
 
-    public String testLogin(User user){
+    public String testLogin(User user) {
         boolean connectionIsOpen = this.db.openMySQL();
-        if (connectionIsOpen){
+        if (connectionIsOpen) {
             List<Row> rows = this.db.executeQuery("SELECT * FROM login ");
-            for(Row row: rows){
-                if(user.getUsername().equals(row.getColumns().get(0)) && user.getPassword().equals(row.getColumns().get(1))){
+            for (Row row : rows) {
+                if (user.getUsername().equals(row.getColumns().get(0)) && user.getPassword().equals(row.getColumns().get(1))) {
                     return row.getColumns().get(2);
                 }
             }
@@ -29,10 +29,10 @@ public class Query {
         return "Error";
     }
 
-    public List<Row> menuAllTypes(){
+    public List<Row> menuAllTypes() {
         boolean connectionIsOpen = this.db.openMySQL();
-        List<Row> rows =new ArrayList<>();
-        if (connectionIsOpen){
+        List<Row> rows = new ArrayList<>();
+        if (connectionIsOpen) {
             rows = this.db.executeQuery("SELECT tipo FROM produtos ");
             this.db.closeMySQL();
             return rows;
@@ -40,10 +40,10 @@ public class Query {
         return rows;
     }
 
-    public List<Row> menuSee(String type){
+    public List<Row> menuSee(String type) {
         boolean connectionIsOpen = this.db.openMySQL();
-        List<Row> rows =new ArrayList<>();
-        if (connectionIsOpen){//                                                           UNICA CENA A MUDAR ENTRE AS QUERYS
+        List<Row> rows = new ArrayList<>();
+        if (connectionIsOpen) {//                                                           UNICA CENA A MUDAR ENTRE AS QUERYS
             rows = this.db.executeQuery("SELECT * FROM produtos WHERE produtos.tipo = \"" + type + "\"");
             this.db.closeMySQL();
             return rows;
@@ -51,21 +51,21 @@ public class Query {
         return rows;
     }
 
-    public List<Row> menuSeeAll(){
+    public List<Row> menuSeeAll() {
         boolean connectionIsOpen = this.db.openMySQL();
-        List<Row> rows =new ArrayList<>();
-        if (connectionIsOpen){
+        List<Row> rows = new ArrayList<>();
+        if (connectionIsOpen) {
             rows = this.db.executeQuery("SELECT * FROM produtos ");
             this.db.closeMySQL();
             return rows;
         }
-        return rows; 
+        return rows;
     }
 
-    public void addMenu(String name, BigDecimal price, String type){
+    public void addMenu(String name, BigDecimal price, String type) {
         boolean connectionIsOpen = this.db.openMySQL();
         String SQL_INSERT_PRODUCTS = "CALL sp_insert_products(?, ?, ?);";
-        if (connectionIsOpen){
+        if (connectionIsOpen) {
             try {
                 this.db.setPreparedStatement(SQL_INSERT_PRODUCTS);
                 PreparedStatement preparedStatement = this.db.getPreparedStatement();
@@ -73,17 +73,17 @@ public class Query {
                 preparedStatement.setBigDecimal(2, price);
                 preparedStatement.setString(3, type);
                 preparedStatement.execute();
-            }catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
             this.db.closePSMySQL();
         }
     }
 
-    public void editMenu(int id, String name, Double price, String type){
+    public void editMenu(int id, String name, Double price, String type) {
         boolean connectionIsOpen = this.db.openMySQL();
         String SQL_INSERT_PRODUCTS = "CALL sp_update_menu(?, ?, ?, ?)";
-        if (connectionIsOpen){
+        if (connectionIsOpen) {
             try {
                 this.db.setPreparedStatement(SQL_INSERT_PRODUCTS);
                 PreparedStatement preparedStatement = this.db.getPreparedStatement();
@@ -93,17 +93,17 @@ public class Query {
                 preparedStatement.setString(4, type);
                 System.out.println("Executing query : " + preparedStatement);
                 preparedStatement.execute();
-            }catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
             this.db.closePSMySQL();
         }
     }
 
-    public void register(String username , String password){
+    public void register(String username, String password) {
         boolean connectionIsOpen = this.db.openMySQL();
         String SQL_INSERT_LOGIN = "INSERT INTO login (username, password) VALUES(?,?)";
-        if (connectionIsOpen){
+        if (connectionIsOpen) {
             try {
                 this.db.setPreparedStatement(SQL_INSERT_LOGIN);
                 PreparedStatement preparedStatement = this.db.getPreparedStatement();
@@ -112,17 +112,17 @@ public class Query {
 
                 System.out.println("Executing query : " + preparedStatement);
                 preparedStatement.execute();
-            }catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
             this.db.closePSMySQL();
         }
     }
 
-    public void createPedido(User user){
+    public void createPedido(User user) {
         boolean connectionIsOpen = this.db.openMySQL();
         String SQL_INSERT_PEDIDO = "INSERT INTO pedido (username, total) VALUES(?,?)";
-        if (connectionIsOpen){
+        if (connectionIsOpen) {
             try {
                 this.db.setPreparedStatement(SQL_INSERT_PEDIDO);
                 PreparedStatement preparedStatement = this.db.getPreparedStatement();
@@ -131,7 +131,7 @@ public class Query {
 
                 System.out.println("Executing query : " + preparedStatement);
                 preparedStatement.execute();
-            }catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
             this.db.closePSMySQL();
@@ -145,7 +145,7 @@ public class Query {
         int idPedido = 0;
         boolean connectionIsOpen = this.db.openMySQL();
         String SQL_INSERT_PRODUCTS_PEDIDO = "CALL sp_last_pedido_ID_from_user(?)";
-        if (connectionIsOpen){
+        if (connectionIsOpen) {
             try {
                 this.db.setPreparedStatement(SQL_INSERT_PRODUCTS_PEDIDO);
                 PreparedStatement preparedStatement = this.db.getPreparedStatement();
@@ -153,11 +153,11 @@ public class Query {
 
                 System.out.println("Executing query : " + preparedStatement);
                 resultSet = preparedStatement.executeQuery();
-                if(resultSet.next()){
+                if (resultSet.next()) {
                     idPedido = resultSet.getInt(1);
                 }
                 //idPedido = resultSet.getInt(0);
-            }catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
             this.db.closePSMySQL();
@@ -186,10 +186,10 @@ public class Query {
         }
     }
 
-    public void addProductToPedido(int idOrder, int idProduct, int qtd){
+    public void addProductToPedido(int idOrder, int idProduct, int qtd) {
         boolean connectionIsOpen = this.db.openMySQL();
         String SQL_INSERT_PRODUCTS_PEDIDO = "INSERT INTO produtospedido (id_pedido, id_produto, quantidade) VALUES(?,?,?)";
-        if (connectionIsOpen){
+        if (connectionIsOpen) {
             try {
                 this.db.setPreparedStatement(SQL_INSERT_PRODUCTS_PEDIDO);
                 PreparedStatement preparedStatement = this.db.getPreparedStatement();
@@ -199,10 +199,49 @@ public class Query {
 
                 System.out.println("Executing query : " + preparedStatement);
                 preparedStatement.execute();
-            }catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
             this.db.closePSMySQL();
         }
+    }
+
+    public String checkUsername(String username) {
+        boolean connectionIsOpen = this.db.openMySQL();
+        if (connectionIsOpen) {
+            List<Row> rows = this.db.executeQuery("SELECT * FROM login ");
+            for (Row row : rows) {
+                if (username.equals(row.getColumns().get(0))){
+                    return "Exist";
+                }
+            }
+            System.out.print("close");
+            this.db.closeMySQL();
+        }
+        return "Error";
+    }
+
+    public List<Row> countabilityAdmin(int id) {
+        String QUERY = "CALL sp_view_produtos_from_pedido( " + id + ")";
+        boolean connectionIsOpen = this.db.openMySQL();
+        List<Row> rows = new ArrayList<>();
+        if (connectionIsOpen) {
+            rows = this.db.executeQuery(QUERY);
+            this.db.closeMySQL();
+            return rows;
+        }
+        return rows;
+    }
+
+    public List<Row> seeAllCountabilityAdmin() {
+        String QUERY = "SELECT * FROM `pedido`";
+        boolean connectionIsOpen = this.db.openMySQL();
+        List<Row> rows = new ArrayList<>();
+        if (connectionIsOpen) {
+            rows = this.db.executeQuery(QUERY);
+            this.db.closeMySQL();
+            return rows;
+        }
+        return rows;
     }
 }

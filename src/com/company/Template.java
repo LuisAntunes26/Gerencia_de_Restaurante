@@ -391,6 +391,5 @@ public class Template {
         }
         return newType;
     }
-
 }
 

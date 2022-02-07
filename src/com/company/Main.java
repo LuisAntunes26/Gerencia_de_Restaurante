@@ -4,9 +4,11 @@ import database.JDBConnection;
 import database.Row;
 
 import java.math.BigDecimal;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
@@ -66,23 +68,30 @@ public class Main {
         }
     }
 
-    private static void register() {
+    public static void register() {
         System.out.println("Criar Cliente");
         String username = user.setCreatUsername(template.createClientUsername());
+        try {
+            if (query.checkUsername(username).equals("Exist")) {
+                System.out.println("Username already exist, try again please!");
+                System.in.read();
+                start();
+            }
+        }catch (Exception e){
+            System.out.println("Error");
+        }
         String password = user.setCreatPassword(template.createClientPassword());
-
         byte choice;
         System.out.println("*-*-*-* Confirmação dos Dados *-*-*-*");
         System.out.println("Username: " + username);
         System.out.println("Password: " + password);
         System.out.print("Confirmacao(1/0): ");
         choice = scanner.nextByte();
+
         if (choice == 1) {
             query.register(username, password);
-
         }
         start();
-
     }
 
     private static void mainMenuUser() {
@@ -185,7 +194,7 @@ public class Main {
         switch (template.choice(title, options)) {
             case 0 -> System.exit(0);
             case 1 -> menuAdmin();
-            case 2 -> System.out.println("Pagamento");
+            case 2 -> countabilityAdmin();
             case 3 -> System.out.println("Classificação");
             case 4 -> System.out.println("Reclamações");
             default -> System.out.println("Erro!");
@@ -227,6 +236,45 @@ public class Main {
         ArrayList<String> options = template.optionsMenuTypes();
         int choice = template.choice(title, options);
         editMenuAdminExecute(choice);
+    }
+
+
+    private static void countabilityAdmin() {
+        String title = "*-*-*-* Countability *-*-*-*";
+        System.out.println(title);
+        System.out.println("1-> Ver tabela pedido");
+        System.out.println("2-> Ver pedido");
+        int choice = scanner.nextInt();
+
+
+        switch(choice){
+            case 1:{
+
+                List<Row> rows = query.seeAllCountabilityAdmin();
+                System.out.println();
+                for (Row row : rows) {
+
+                    System.out.println("Username: " + row.getColumns().get(1) + "| Id pedido: " + row.getColumns().get(0) +
+                            "| Total: " + row.getColumns().get(2));
+                }
+                break;
+            }
+
+            case 2 : {
+                System.out.println("Enter the pedido id ");
+                choice = scanner.nextInt();
+                List<Row> rows = query.countabilityAdmin(choice);
+                String clientName = rows.get(0).getColumns().get(1);
+
+                System.out.println("Nome Cliente: " + clientName);
+                for (Row row : rows) {
+
+                    System.out.println("Menu: " + row.getColumns().get(2) +
+                            "| Preco: " + row.getColumns().get(4) + "| Tipo Menu: " + row.getColumns().get(5) + "| Quantidade: " +
+                            row.getColumns().get(6));
+                }
+            }
+        }
     }
 
     private static void editMenuAdminExecute(int x) {

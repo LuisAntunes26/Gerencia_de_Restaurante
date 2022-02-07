@@ -92,13 +92,13 @@ public class Template {
     //Metodo para intoducao do user
     public String enterUser(){
         console_clear();
-        System.out.print("Introduza o username: ");
+        System.out.print("Enter a username: ");
         String username = this.scanner.next();
         console_clear();
 
         while(username.equals("") || username.length() >= 25) {
-            System.out.println("Username vazio ou com mais de 25 caracters - INVALIDO");
-            System.out.print("Introduza o username: ");
+            System.out.println("Username empty or with more than 25 character - INVALID");
+            System.out.print("Enter a username: ");
             username = this.scanner.next();
             console_clear();
         }
@@ -107,13 +107,13 @@ public class Template {
 
     //Metodo para intoducao da password
     public String enterPassword(){
-        System.out.print("Introduza a Password: ");
+        System.out.print("Enter a Password: ");
         String password = this.scanner.next();
         console_clear();
 
         while(password.equals("")) {
-            System.out.println("Password vazia - INVALIDO");
-            System.out.println("Introduza a password: ");
+            System.out.println("Password empty - INVALID");
+            System.out.println("Enter a password: ");
             password = this.scanner.next();
             console_clear();
         }
@@ -124,7 +124,7 @@ public class Template {
     public String createClientUsername(){
         console_clear();
         String username;
-        System.out.print("Introduza um username: ");
+        System.out.print("Enter a username: ");
         username = this.scanner.next();
         console_clear();
         return username;
@@ -133,7 +133,7 @@ public class Template {
     public String createClientPassword(){
         console_clear();
         String password;
-        System.out.print("Introduza uma password: ");
+        System.out.print("Enter a password: ");
         password = this.scanner.next();
         console_clear();
         return password;
@@ -246,7 +246,7 @@ public class Template {
         ArrayList<String> options = new ArrayList<>();
         options.add("0 - Exit");
         options.add("1 - Menus");
-        options.add("2 - Acess accounting");
+        options.add("2 - Access accounting");
         return options;
     }
 

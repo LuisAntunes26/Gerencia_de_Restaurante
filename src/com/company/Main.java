@@ -69,7 +69,7 @@ public class Main {
     }
 
     public static void register() {
-        System.out.println("Criar Cliente");
+        System.out.println("Create Client");
         String username = user.setCreatUsername(template.createClientUsername());
         try {
             if (query.checkUsername(username).equals("Exist")) {
@@ -82,10 +82,10 @@ public class Main {
         }
         String password = user.setCreatPassword(template.createClientPassword());
         byte choice;
-        System.out.println("*-*-*-* Confirmação dos Dados *-*-*-*");
+        System.out.println("*-*-*-* Data Confirmation *-*-*-*");
         System.out.println("Username: " + username);
         System.out.println("Password: " + password);
-        System.out.print("Confirmacao(1/0): ");
+        System.out.print("Confirmation(1/0): ");
         choice = scanner.nextByte();
 
         if (choice == 1) {
@@ -153,7 +153,7 @@ public class Main {
     }
 
     private static void menuUserAddAll() {
-        String title = "*-*-*-* Todos *-*-*-*";
+        String title = "*-*-*-* All *-*-*-*";
         List<Row> outputBD = query.menuSeeAll();
         ArrayList<String> options = template.menusToOptions(outputBD);
         int choice = template.choice(title, options);
@@ -213,11 +213,11 @@ public class Main {
         BigDecimal price = BigDecimal.valueOf(template.priceMenu(name));
         String type = template.typeMenu(name, price);
         byte choice;
-        System.out.println("*-*-*-* Novo produto *-*-*-*");
-        System.out.println("Nome: " + name);
-        System.out.println("Preco: " + price + '€');
-        System.out.println("Tipo: " + type);
-        System.out.print("Confirmacao(1/0): ");
+        System.out.println("*-*-*-* New product *-*-*-*");
+        System.out.println("Name: " + name);
+        System.out.println("Price: " + price + '€');
+        System.out.println("Type: " + type);
+        System.out.print("Confirmation(1/0): ");
         choice = scanner.nextByte();
         if (choice == 1) {
             query.addMenu(name, price, type);
@@ -236,39 +236,53 @@ public class Main {
 
 
     private static void countabilityAdmin() {
+        template.console_clear();
         String title = "*-*-*-* Countability *-*-*-*";
         System.out.println(title);
-        System.out.println("1-> Ver tabela pedido");
-        System.out.println("2-> Ver pedido");
+        System.out.println("0-> Return");
+        System.out.println("1-> See table order");
+        System.out.println("2-> See order by id");
         int choice = scanner.nextInt();
 
 
         switch(choice){
+            case 0: mainMenuAdmin();
             case 1:{
-
                 List<Row> rows = query.seeAllCountabilityAdmin();
                 System.out.println();
                 for (Row row : rows) {
-
-                    System.out.println("Username: " + row.getColumns().get(1) + "| Id pedido: " + row.getColumns().get(0) +
+                    System.out.println("Username: " + row.getColumns().get(1) + "| Id order: " + row.getColumns().get(0) +
                             "| Total: " + row.getColumns().get(2));
                 }
-                break;
+                System.out.print("Press ENTER to go back...");
+                try {
+                    System.in.read();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                countabilityAdmin();
             }
 
             case 2 : {
-                System.out.println("Enter the pedido id ");
+                template.console_clear();
+                System.out.println("Enter the order id: ");
                 choice = scanner.nextInt();
+                template.console_clear();
                 List<Row> rows = query.countabilityAdmin(choice);
                 String clientName = rows.get(0).getColumns().get(1);
-
                 System.out.println("Client username: " + clientName);
                 for (Row row : rows) {
-
                     System.out.println("Menu: " + row.getColumns().get(3) +
                             "| Price: " + row.getColumns().get(4) + "| Type: " + row.getColumns().get(5) + "| Qtd.: " +
                             row.getColumns().get(6));
                 }
+                System.out.print("Press ENTER to go back...");
+                try {
+                    System.in.read();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                countabilityAdmin();
             }
         }
     }
@@ -295,7 +309,7 @@ public class Main {
     }
 
     private static Row menuAdminEditAll(){
-        String title = "*-*-*-* Todos *-*-*-*";
+        String title = "*-*-*-* All *-*-*-*";
         List<Row> outputBD = query.menuSeeAll();
         ArrayList<String> options = template.menusToOptions(outputBD);
         int chosenMenuIndex = template.choice(title, options)-1;
@@ -306,14 +320,14 @@ public class Main {
         int id =Integer.parseInt(chosenMenu.getColumns().get(0));
         int columnChoiceIndex;
         do {
-            String title = "*-*-*-*- Escolher Coluna *-*-*-*-";
+            String title = "*-*-*-*- Choose Column *-*-*-*-";
             columnChoiceIndex = template.choice(title, template.colunumsToOptions(chosenMenu));
             switch (columnChoiceIndex) {
                 case 0 -> menuAdminEdit();
                 case 1 -> chosenMenu.setElement(1, template.insertNewName(chosenMenu));
                 case 2 -> chosenMenu.setElement(2, template.insertNewPrice(chosenMenu));
                 case 3 -> chosenMenu.setElement(3, template.insertNewType(chosenMenu));
-                case 4 -> System.out.println("Executar query");
+                case 4 -> System.out.println("Execute query");
                 default -> throw new IllegalStateException("Unexpected value: " + columnChoiceIndex);
             }
         }while(columnChoiceIndex != 4);
@@ -324,15 +338,16 @@ public class Main {
     }
 
     public static void paymentUser(){
-        String title = "*-*-*-*-*-*-*-* Pagamento *-*-*-*-*-*-*-*" ;
+        String title = "*-*-*-*-*-*-*-* Payment *-*-*-*-*-*-*-*" ;
         System.out.println(title);
         for (String str: template.paymentCart()) {
             System.out.println(str);
         }
-        System.out.println("Deseja acabar a sua compra?(1/0): ");
+        System.out.println("Do you want to finish your purchase?(1/0): ");
         byte choice = scanner.nextByte();
         if (choice == 1){
         query.createPedido(user);
+            //mainMenuUser();
         }else {
             mainMenuUser();
         }

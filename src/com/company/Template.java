@@ -73,8 +73,6 @@ public class Template {
         options.add("0 - Exit");
         options.add("1 - Login");
         options.add("2 - Register");
-        options.add("3 - Login user");
-        options.add("4 - Login admin");
 
         return options;
     }
@@ -399,5 +397,12 @@ public class Template {
             console_clear();
         }
         return newType;
+    }
+
+    public ArrayList<String> optionsCountabilityAdmin(){
+        ArrayList<String> options = new ArrayList<>();
+        options.add("0 - Return");
+        options.add("1 - See table order");
+        return options;
     }
 }

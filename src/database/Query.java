@@ -91,7 +91,6 @@ public class Query {
                 preparedStatement.setString(2, name);
                 preparedStatement.setBigDecimal(3, BigDecimal.valueOf(price));
                 preparedStatement.setString(4, type);
-                System.out.println("Executing query : " + preparedStatement);
                 preparedStatement.execute();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -110,7 +109,6 @@ public class Query {
                 preparedStatement.setString(1, username);
                 preparedStatement.setString(2, password);
 
-                System.out.println("Executing query : " + preparedStatement);
                 preparedStatement.execute();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -129,7 +127,6 @@ public class Query {
                 preparedStatement.setString(1, user.getUsername());
                 preparedStatement.setBigDecimal(2, BigDecimal.valueOf(user.getTotalSpent()));
 
-                System.out.println("Executing query : " + preparedStatement);
                 preparedStatement.execute();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -151,7 +148,6 @@ public class Query {
                 PreparedStatement preparedStatement = this.db.getPreparedStatement();
                 preparedStatement.setString(1, user.getUsername());
 
-                System.out.println("Executing query : " + preparedStatement);
                 resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
                     idPedido = resultSet.getInt(1);
@@ -197,7 +193,6 @@ public class Query {
                 preparedStatement.setInt(2, idProduct);
                 preparedStatement.setInt(3, qtd);
 
-                System.out.println("Executing query : " + preparedStatement);
                 preparedStatement.execute();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -221,8 +216,8 @@ public class Query {
         return "Error";
     }
 
-    public List<Row> countabilityAdmin(int id) {
-        String QUERY = "CALL sp_view_produtos_from_pedido( " + id + ")";
+    public List<Row> seeOrderFromID(int id) {
+        String QUERY = "CALL sp_view_product_from_order( " + id + ")";
         boolean connectionIsOpen = this.db.openMySQL();
         List<Row> rows = new ArrayList<>();
         if (connectionIsOpen) {
@@ -233,7 +228,7 @@ public class Query {
         return rows;
     }
 
-    public List<Row> seeAllCountabilityAdmin() {
+    public List<Row> seeAllOrders() {
         String QUERY = "SELECT * FROM `pedido`";
         boolean connectionIsOpen = this.db.openMySQL();
         List<Row> rows = new ArrayList<>();

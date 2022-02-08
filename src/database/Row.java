@@ -1,6 +1,5 @@
 package database;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +20,6 @@ public class Row {
 
     public void setElement(int index, String element){
         this.elements.set(index, element);
-    }
-
-    public int getNColumns(){
-        return this.elements.size();
     }
 
     public String toString(){

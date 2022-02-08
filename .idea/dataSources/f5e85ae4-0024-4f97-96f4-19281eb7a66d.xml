@@ -1257,7 +1257,8 @@
       <Position>2</Position>
     </column>
     <column id="364" parent="346" name="Total">
-      <DataType>decimal(10)|0s</DataType>
+      <DataType>decimal(10,2 digit)|0s</DataType>
+      <DefaultExpression>0.00</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>

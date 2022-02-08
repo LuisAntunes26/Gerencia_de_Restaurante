@@ -1,11 +1,13 @@
 package com.company;
+
 import database.Query;
 import database.Row;
 
 import java.math.BigDecimal;
-import java.util.*;
-
-import java.io.Console;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Scanner;
 
 public class Template {
     private User user;
@@ -54,10 +56,6 @@ public class Template {
                     fail = true;
                     error = "Not a number!";
                 }
-                //System.out.println(exeption.getMessage());
-                //Erro a Resolver: java.lang.NumberFormatException: For input string: ""
-                //Sempre que existe uma confirmação através de um byte
-                //Pula um ciclo e mostra uma mesagem de erro não adequada
             }
             catch (Exception exeption){
                 fail = true;
@@ -93,13 +91,13 @@ public class Template {
     public String enterUser(){
         console_clear();
         System.out.print("Enter a username: ");
-        String username = this.scanner.next();
+        String username = this.scanner.nextLine();
         console_clear();
 
         while(username.equals("") || username.length() >= 25) {
             System.out.println("Username empty or with more than 25 character - INVALID");
             System.out.print("Enter a username: ");
-            username = this.scanner.next();
+            username = this.scanner.nextLine();
             console_clear();
         }
         return username;
@@ -108,13 +106,13 @@ public class Template {
     //Metodo para intoducao da password
     public String enterPassword(){
         System.out.print("Enter a Password: ");
-        String password = this.scanner.next();
+        String password = this.scanner.nextLine();
         console_clear();
 
         while(password.equals("")) {
             System.out.println("Password empty - INVALID");
             System.out.println("Enter a password: ");
-            password = this.scanner.next();
+            password = this.scanner.nextLine();
             console_clear();
         }
         return password;
@@ -125,7 +123,7 @@ public class Template {
         console_clear();
         String username;
         System.out.print("Enter a username: ");
-        username = this.scanner.next();
+        username = this.scanner.nextLine();
         console_clear();
         return username;
     }
@@ -134,7 +132,7 @@ public class Template {
         console_clear();
         String password;
         System.out.print("Enter a password: ");
-        password = this.scanner.next();
+        password = this.scanner.nextLine();
         console_clear();
         return password;
     }
@@ -181,13 +179,25 @@ public class Template {
     }
 
     public ArrayList<String> menusToOptions(List<Row> rows){
-
         ArrayList<String> options = new ArrayList<>();
         String str;
         options.add("0 - Return");
         for (int i = 0; i < rows.size(); i++) {
             Row row = rows.get(i);
             str = (i+1 + "- " + row.getColumns().get(1) + " (" + row.getColumns().get(2) + ")");
+            options.add(str);
+        }
+        return options;
+    }
+
+    public ArrayList<String> ordersToOptions(List<Row> rows){
+        ArrayList<String> options = new ArrayList<>();
+        String str;
+        options.add("0 - Return");
+        for (int i = 0; i < rows.size(); i++) {
+            Row row = rows.get(i);
+            str = (i+1 + "- Username: " + row.getColumns().get(1) +
+                    " | Total: " + row.getColumns().get(2));
             options.add(str);
         }
         return options;
@@ -231,7 +241,7 @@ public class Template {
             }
             priceForItems = (qtd * Double.parseDouble(irow.getColumns().get(2)));
             str =  qtd + "x " +irow.getColumns().get(1) + " (Unit. " + irow.getColumns().get(2) +
-                    "€)  -  Todos = " + priceForItems + "€";
+                    "€)  -  For products = " + priceForItems + "€";
             if(!results.contains(str)){
                 totalPrice += priceForItems;
                 results.add(str);
@@ -376,11 +386,13 @@ public class Template {
         String title = "*-*-*-* Change type *-*-*-*";
         String oldType = chosenMenu.getColumns().get(3);
         console_clear();
+        System.out.println(title);
         System.out.println("Old type: " + oldType);
         System.out.print("New type: ");
         String newType = this.scanner.nextLine();
         console_clear();
         while(newType.equals("") || newType.equals(oldType)) {
+            System.out.println(title);
             System.out.println("The type is empty or is equal to the old one!");
             System.out.print("New type: ");
             newType = this.scanner.nextLine();
@@ -389,4 +401,3 @@ public class Template {
         return newType;
     }
 }
-

@@ -1,14 +1,13 @@
 package com.company;
-import database.Query;
+
 import database.JDBConnection;
+import database.Query;
 import database.Row;
 
 import java.math.BigDecimal;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
@@ -31,20 +30,6 @@ public class Main {
             case 0 -> System.exit(0);
             case 1 -> login();
             case 2 -> register();
-            case 3 -> {
-                user.setUsername("user");
-                user.setUsername("user");
-                user.setType("user");
-                template.setUser(user);
-                mainMenuUser();
-            }
-            case 4 -> {
-                user.setUsername("admin");
-                user.setUsername("admin");
-                user.setType("admin");
-                template.setUser(user);
-                mainMenuAdmin();
-            }
             default -> System.out.println("Erro!");
         }
     }
@@ -68,12 +53,12 @@ public class Main {
         }
     }
 
-    public static void register() {
-        System.out.println("Create Client");
+    private static void register() {
         String username = user.setCreatUsername(template.createClientUsername());
         try {
             if (query.checkUsername(username).equals("Exist")) {
                 System.out.println("Username already exist, try again please!");
+                System.out.print("Press ENTER to go back ...");
                 System.in.read();
                 start();
             }
@@ -238,53 +223,47 @@ public class Main {
     private static void countabilityAdmin() {
         template.console_clear();
         String title = "*-*-*-* Countability *-*-*-*";
-        System.out.println(title);
-        System.out.println("0-> Return");
-        System.out.println("1-> See table order");
-        System.out.println("2-> See order by id");
-        int choice = scanner.nextInt();
+
+        ArrayList<String> options = template.optionsCountabilityAdmin();
+        int choice = template.choice(title, options);
 
 
         switch(choice){
             case 0: mainMenuAdmin();
-            case 1:{
-                List<Row> rows = query.seeAllCountabilityAdmin();
-                System.out.println();
-                for (Row row : rows) {
-                    System.out.println("Username: " + row.getColumns().get(1) + "| Id order: " + row.getColumns().get(0) +
-                            "| Total: " + row.getColumns().get(2));
-                }
-                System.out.print("Press ENTER to go back...");
-                try {
-                    System.in.read();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                countabilityAdmin();
-            }
-
-            case 2 : {
-                template.console_clear();
-                System.out.println("Enter the order id: ");
-                choice = scanner.nextInt();
-                template.console_clear();
-                List<Row> rows = query.countabilityAdmin(choice);
-                String clientName = rows.get(0).getColumns().get(1);
-                System.out.println("Client username: " + clientName);
-                for (Row row : rows) {
-                    System.out.println("Menu: " + row.getColumns().get(3) +
-                            "| Price: " + row.getColumns().get(4) + "| Type: " + row.getColumns().get(5) + "| Qtd.: " +
-                            row.getColumns().get(6));
-                }
-                System.out.print("Press ENTER to go back...");
-                try {
-                    System.in.read();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                countabilityAdmin();
-            }
+            case 1: chooseFromAllOrders();
         }
+    }
+
+    private static void chooseFromAllOrders(){
+        String title = "*-*-*-* All Orders *-*-*-*";
+        List<Row> outputDB = query.seeAllOrders();
+        ArrayList<String> options = template.ordersToOptions(outputDB);
+        int choice = template.choice(title, options);
+
+        if (choice > 0){
+            int id = Integer.parseInt(outputDB.get(choice-1).getColumns().get(0));
+            chooseFromOrderID(id);
+        }else {
+            countabilityAdmin();
+        }
+    }
+
+    private static void chooseFromOrderID(int choice){
+        List<Row> rows = query.seeOrderFromID(choice);
+        String clientName = rows.get(0).getColumns().get(1);
+        System.out.println("Client username: " + clientName);
+        for (Row row : rows) {
+            System.out.println("Menu: " + row.getColumns().get(3) +
+                    " | Price: " + row.getColumns().get(4) + "€ | Type: " + row.getColumns().get(5) + " | Qtd.: " +
+                    row.getColumns().get(6));
+        }
+        System.out.print("Press ENTER to go back...");
+        try {
+            System.in.read();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        chooseFromAllOrders();
     }
 
     private static void editMenuAdminExecute(int x) {
@@ -343,11 +322,13 @@ public class Main {
         for (String str: template.paymentCart()) {
             System.out.println(str);
         }
-        System.out.println("Do you want to finish your purchase?(1/0): ");
+        System.out.print("Do you want to finish your purchase?(1/0): ");
         byte choice = scanner.nextByte();
         if (choice == 1){
         query.createPedido(user);
-            //mainMenuUser();
+        template.console_clear();
+        System.out.println("Thanks for buying with us!!");
+        System.exit(0);
         }else {
             mainMenuUser();
         }

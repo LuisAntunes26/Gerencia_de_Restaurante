@@ -6,8 +6,6 @@ import java.util.ArrayList;
 
 public class User {
     private String username;
-    private String creatUsername;
-    private String creatPassword;
     private String password;
     private String type;
     private final ArrayList<Row> cart = new ArrayList<>();
@@ -52,21 +50,11 @@ public class User {
         return this.cart;
     }
 
-    public String getCreatUsername(String s) {
-        return creatUsername;
-    }
-
     public String setCreatUsername(String creatUsername) {
-        this.creatUsername = creatUsername;
         return creatUsername;
-    }
-
-    public String getCreatPassword() {
-        return creatPassword;
     }
 
     public String setCreatPassword(String creatPassword) {
-        this.creatPassword = creatPassword;
         return creatPassword;
     }
 

@@ -1,6 +1,5 @@
 package database;
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,13 +93,4 @@ public class JDBConnection {
 
     }
 
-    public void executeUpdate(String query){
-        try{
-            this.statement = this.connection.createStatement();
-            this.statement.executeUpdate(query);
-            System.out.println("Executed query: " + query );
-        }catch(Exception e){
-            System.err.println("Exeption on open -- " + e.getClass().getName()+ ": " + e.getMessage());
-        }
-    }
 }

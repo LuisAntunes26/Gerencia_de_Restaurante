@@ -54,7 +54,7 @@ public class Main {
     }
 
     private static void register() {
-        String username = user.setCreatUsername(template.createClientUsername());
+        String username = template.createClientUsername();
         try {
             if (query.checkUsername(username).equals("Exist")) {
                 System.out.println("Username already exist, try again please!");
@@ -65,7 +65,7 @@ public class Main {
         }catch (Exception e){
             System.out.println("Error");
         }
-        String password = user.setCreatPassword(template.createClientPassword());
+        String password = template.createClientPassword();
         byte choice;
         System.out.println("*-*-*-* Data Confirmation *-*-*-*");
         System.out.println("Username: " + username);

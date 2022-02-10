@@ -18,7 +18,6 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
-
     public String getUsername() {
         return username;
     }
@@ -26,7 +25,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
     public String getPassword() {
         return password;
     }
@@ -34,7 +32,6 @@ public class User {
     public void setType(String type) {
         this.type = type;
     }
-
     public String getType() {
         return type;
     }
@@ -45,23 +42,13 @@ public class User {
     public void removeCart(int i){
         this.cart.remove(i);
     }
-
     public ArrayList<Row> getCart(){
         return this.cart;
-    }
-
-    public String setCreatUsername(String creatUsername) {
-        return creatUsername;
-    }
-
-    public String setCreatPassword(String creatPassword) {
-        return creatPassword;
     }
 
     public void setTotalSpent(double totalSpent) {
         this.totalSpent = totalSpent;
     }
-
     public double getTotalSpent() {
         return totalSpent;
     }

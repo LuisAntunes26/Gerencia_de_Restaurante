@@ -16,17 +16,28 @@ public class Query {
     }
 
     public String testLogin(User user) {
+        ResultSet resultSet;
         boolean connectionIsOpen = this.db.openMySQL();
+        String type = "Error";
         if (connectionIsOpen) {
-            List<Row> rows = this.db.executeQuery("SELECT * FROM login ");
-            for (Row row : rows) {
-                if (user.getUsername().equals(row.getColumns().get(0)) && user.getPassword().equals(row.getColumns().get(1))) {
-                    return row.getColumns().get(2);
+            String SQL_LOGIN_TEST = "CALL sp_login_test(?,?)";
+            if (connectionIsOpen) {
+                try {
+                    this.db.setPreparedStatement(SQL_LOGIN_TEST);
+                    PreparedStatement preparedStatement = this.db.getPreparedStatement();
+                    preparedStatement.setString(1, user.getUsername());
+                    preparedStatement.setString(2, user.getPassword());
+                    resultSet = preparedStatement.executeQuery();
+                    if (resultSet.next()) {
+                        type = resultSet.getString(1);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
+                this.db.closePSMySQL();
             }
-            this.db.closeMySQL();
         }
-        return "Error";
+        return type;
     }
 
     public List<Row> menuAllTypes() {
@@ -101,7 +112,7 @@ public class Query {
 
     public void register(String username, String password) {
         boolean connectionIsOpen = this.db.openMySQL();
-        String SQL_INSERT_LOGIN = "INSERT INTO login (username, password) VALUES(?,?)";
+        String SQL_INSERT_LOGIN = "CALL sp_register_user(?, ?)";
         if (connectionIsOpen) {
             try {
                 this.db.setPreparedStatement(SQL_INSERT_LOGIN);

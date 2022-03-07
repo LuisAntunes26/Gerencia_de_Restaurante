@@ -253,9 +253,8 @@ public class Main {
         String clientName = rows.get(0).getColumns().get(1);
         System.out.println("Client username: " + clientName);
         for (Row row : rows) {
-            System.out.println("Menu: " + row.getColumns().get(3) +
-                    " | Price: " + row.getColumns().get(4) + "€ | Type: " + row.getColumns().get(5) + " | Qtd.: " +
-                    row.getColumns().get(6));
+            System.out.println("Qtd.: " + row.getColumns().get(6) + " | Price: " + row.getColumns().get(4) +
+                    "€ | Type: " + row.getColumns().get(5) + " | Menu: " + row.getColumns().get(3));
         }
         System.out.print("Press ENTER to go back...");
         try {
@@ -319,7 +318,7 @@ public class Main {
     public static void paymentUser(){
         String title = "*-*-*-*-*-*-*-* Payment *-*-*-*-*-*-*-*" ;
         System.out.println(title);
-        for (String str: template.paymentCart()) {
+        for (String str: template.showcart()) {
             System.out.println(str);
         }
         System.out.print("Do you want to finish your purchase?(1/0): ");

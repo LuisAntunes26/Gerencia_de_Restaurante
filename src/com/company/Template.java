@@ -195,34 +195,14 @@ public class Template {
         for (int i = 0; i < rows.size(); i++) {
             Row row = rows.get(i);
             str = (i+1 + "- Username: " + row.getColumns().get(1) +
-                    " | Total: " + row.getColumns().get(2));
+                    " | Total: " + row.getColumns().get(2) + "€");
             options.add(str);
         }
         return options;
     }
 
-    public ArrayList<String> showcart(){
-        int qtd;
-        String str;
-        ArrayList<Row> cart = this.user.getCart();
-        ArrayList<String> results = new ArrayList<>();
-        for (int i = 0; i < cart.size(); i++) {
-            qtd = 0;
-            Row irow = cart.get(i);
-            for (Row jrow : cart) {
-                if (Integer.parseInt(jrow.getColumns().get(0)) == Integer.parseInt(irow.getColumns().get(0))) {
-                    qtd += 1;
-                }
-            }
-            str =  qtd + "x " +irow.getColumns().get(1) + " (" + irow.getColumns().get(2) + ") ";
-            if(!results.contains(str)){
-                results.add(str);
-            }
-        }
-        return results;
-    }
 
-    public ArrayList<String> paymentCart(){
+    public ArrayList<String> showcart(){
         int qtd;
         String str;
         double priceForItems;
@@ -239,13 +219,13 @@ public class Template {
             }
             priceForItems = (qtd * Double.parseDouble(irow.getColumns().get(2)));
             str =  qtd + "x " +irow.getColumns().get(1) + " (Unit. " + irow.getColumns().get(2) +
-                    "€)  -  For products = " + priceForItems + "€";
+                    "€)  -  For products = " + String.format("%.2f", priceForItems) + "€";
             if(!results.contains(str)){
                 totalPrice += priceForItems;
                 results.add(str);
             }
         }
-        results.add("Total = " + totalPrice + "€");
+        results.add("Total = " + String.format("%.2f", totalPrice) + "€");
         this.user.setTotalSpent(totalPrice);
         return results;
     }
